@@ -2,6 +2,7 @@ import { ApiSearchModal } from "components/ApiSearchModal";
 import { curlHeaders } from "shared/CodeModal/curlHeader";
 import { toCodeT, useParamsToSdk } from "shared/CodeModal/hook";
 import { SupportedDisplayTypes } from "shared/CodeModal/types";
+import { apiBaseUrl } from "utils/contextPath";
 import { IdempotencyStrategyEnum } from "./types";
 
 export type BuildQueryOutput = {
@@ -48,9 +49,7 @@ const buildCurlCode = (
     ...(taskToDomain && { taskToDomain: taskToDomain }),
   };
 
-  const curlCommand = `curl '${
-    window.location.origin
-  }/api/workflow' \\${Object.entries(headers)
+  const curlCommand = `curl '${apiBaseUrl()}/workflow' \\${Object.entries(headers)
     .map(([key, value]) => `\n-H '${key}: ${value}' \\`)
     .join("")}\n--data-raw '${JSON.stringify(dataRawJSON)}'`;
 
@@ -76,7 +75,7 @@ const buildJsCode = (
 async function runWorkflow() {
   const client = await orkesConductorClient({
     TOKEN: "${accessToken}",
-    serverUrl: "${window.location.origin}/api"
+    serverUrl: "${apiBaseUrl()}"
   });
   const executor = new WorkflowExecutor(client);
 

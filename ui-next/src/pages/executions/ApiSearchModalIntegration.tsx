@@ -2,6 +2,7 @@ import { ApiSearchModal } from "components/ApiSearchModal";
 import { toCodeT, useParamsToSdk } from "shared/CodeModal/hook";
 import { SupportedDisplayTypes } from "shared/CodeModal/types";
 import { curlHeaders } from "shared/CodeModal/curlHeader";
+import { apiBaseUrl } from "utils/contextPath";
 
 export type BuildQueryOutput = {
   query: string;
@@ -23,7 +24,7 @@ const buildEndpoint = ({
   freeText,
   query,
 }: BuildQueryOutput) =>
-  `${window.location.origin}/api/workflow/search?${new URLSearchParams({
+  `${apiBaseUrl()}/workflow/search?${new URLSearchParams({
     start: String(start),
     size: String(size),
     sort,
@@ -61,7 +62,7 @@ async function searchExecution(
 ) {
   const client = await orkesConductorClient({
     TOKEN: "${accessToken}",
-    serverUrl: "${window.location.origin}/api"
+    serverUrl: "${apiBaseUrl()}"
   });
   const executor = new WorkflowExecutor(client);
   const results = await executor.search(start, size, query, freeText, sort );

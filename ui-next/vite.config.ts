@@ -11,8 +11,11 @@ import { isLibPeerExternal } from "./vite.lib-peer-external";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const packageDir = __dirname;
 
+const withBaseUrl = (baseUrl: string, path: string) =>
+  `${baseUrl.replace(/\/+$/, "")}/${path.replace(/^\/+/, "")}`;
+
 // Plugin to inject build-time hash into context.js script tag
-function contextJsHashPlugin(): Plugin {
+function contextJsHashPlugin(baseUrl: string): Plugin {
   const buildHash = createHash("md5")
     .update(Date.now().toString())
     .update(process.pid?.toString() || "")
@@ -24,7 +27,7 @@ function contextJsHashPlugin(): Plugin {
     transformIndexHtml(html) {
       return html.replace(
         /<script[^>]*src=["']\/context\.js[^"']*["'][^>]*><\/script>/i,
-        `<script src="/context.js?v=${buildHash}"></script>`,
+        `<script src="${withBaseUrl(baseUrl, `/context.js?v=${buildHash}`)}"></script>`,
       );
     },
   };
@@ -76,7 +79,7 @@ export default defineConfig(({ mode }) => {
       tsconfigPaths(),
       svgr(),
       vitePluginCspNonce(),
-      contextJsHashPlugin(),
+      contextJsHashPlugin(BASE_URL),
     ],
     optimizeDeps: {
       include: [

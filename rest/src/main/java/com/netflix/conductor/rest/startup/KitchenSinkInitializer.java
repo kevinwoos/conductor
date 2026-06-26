@@ -52,6 +52,9 @@ public class KitchenSinkInitializer {
     @Value("${server.port:8080}")
     private int port;
 
+    @Value("${server.servlet.context-path:}")
+    private String contextPath;
+
     @Value("classpath:./kitchensink/kitchensink.json")
     private Resource kitchenSink;
 
@@ -134,6 +137,15 @@ public class KitchenSinkInitializer {
     }
 
     private String url(String path) {
-        return "http://localhost:" + port + path;
+        return "http://localhost:" + port + normalizeContextPath() + path;
+    }
+
+    private String normalizeContextPath() {
+        if (contextPath == null || contextPath.isBlank() || "/".equals(contextPath)) {
+            return "";
+        }
+
+        String normalized = contextPath.startsWith("/") ? contextPath : "/" + contextPath;
+        return normalized.endsWith("/") ? normalized.substring(0, normalized.length() - 1) : normalized;
     }
 }

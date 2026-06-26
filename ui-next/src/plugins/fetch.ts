@@ -8,6 +8,7 @@ import { MessageContext } from "components/providers/messageContext";
 import { useContext } from "react";
 import { IObject } from "types/common";
 import { getErrorMessage, tryToJson } from "utils/utils";
+import { withContextPath } from "utils/contextPath";
 import { useEnv as hardcodeEnv } from "./env";
 
 const { VITE_ENVIRONMENT, VITE_WF_SERVER } = process.env;
@@ -41,9 +42,10 @@ export async function fetchWithContext(
   const newParams = { ...fetchParams };
 
   // Need for build version (can't use proxy)
-  const newPath = `${
-    VITE_ENVIRONMENT === "test" ? VITE_WF_SERVER : ""
-  }/api/${path}`;
+  const newPath =
+    VITE_ENVIRONMENT === "test"
+      ? `${VITE_WF_SERVER}/api/${path}`
+      : withContextPath(`/api/${path}`);
 
   const cleanPath = newPath.replace(/([^:]\/)\/+/g, "$1"); // Cleanup duplicated slashes
 

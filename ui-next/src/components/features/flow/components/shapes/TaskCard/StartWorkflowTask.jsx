@@ -3,6 +3,7 @@ import { TreeStructure as WorkflowIcon } from "@phosphor-icons/react";
 import { useContext } from "react";
 import { ColorModeContext } from "theme/material/ColorModeContext";
 import { colors } from "theme/tokens/variables";
+import { appOrigin } from "utils/contextPath";
 
 const StartWorkflowTask = ({ nodeData }) => {
   const { mode } = useContext(ColorModeContext);
@@ -40,7 +41,7 @@ const StartWorkflowTask = ({ nodeData }) => {
           }}
         >
           <Link
-            href={`${window.location.origin}/workflowDef/${startWorkflow?.name}`}
+            href={`${appOrigin()}/workflowDef/${startWorkflow?.name}`}
             sx={{ color: "cyan" }}
             target="_blank"
             rel="noreferrer"

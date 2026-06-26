@@ -7,9 +7,12 @@
 
 import { useEffect } from "react";
 import { Box, CircularProgress, Typography } from "@mui/material";
+import { withContextPath } from "utils/contextPath";
 
 const getSwaggerUrl = () =>
-  `//${window.location.host}/swagger-ui/index.html?configUrl=/api-docs/swagger-config#/`;
+  `//${window.location.host}${withContextPath(
+    "/swagger-ui/index.html",
+  )}?configUrl=${withContextPath("/api-docs/swagger-config")}#/`;
 
 export default function ApiReferencePage() {
   useEffect(() => {

@@ -2,6 +2,7 @@ import { ApiSearchModal } from "components/ApiSearchModal";
 import { curlHeaders } from "shared/CodeModal/curlHeader";
 import { toCodeT, useParamsToSdk } from "shared/CodeModal/hook";
 import { SupportedDisplayTypes } from "shared/CodeModal/types";
+import { apiBaseUrl } from "utils/contextPath";
 import { BuildQueryOutput } from "./ApiSearchModalIntegration";
 
 interface SchedulerApiSearchModalProps {
@@ -16,9 +17,7 @@ const buildEndpoint = ({
   freeText,
   query,
 }: BuildQueryOutput) =>
-  `${
-    window.location.origin
-  }/api/scheduler/search/executions?${new URLSearchParams({
+  `${apiBaseUrl()}/scheduler/search/executions?${new URLSearchParams({
     start: String(start),
     size: String(size),
     sort,
@@ -56,7 +55,7 @@ async function searchSchedule(
 ) {
   const client = await orkesConductorClient({
     TOKEN: "${accessToken}",
-    serverUrl: "${window.location.origin}/api"
+    serverUrl: "${apiBaseUrl()}"
   });
   const executor = new SchedulerClient(client);
   const results = await executor.search(start, size, sort, freeText, query);

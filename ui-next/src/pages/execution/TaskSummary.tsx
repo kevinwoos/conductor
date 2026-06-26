@@ -4,6 +4,7 @@ import { NavLink, KeyValueTable } from "components";
 import { Link, Paper } from "@mui/material";
 import { ExecutionTask, TaskType } from "types";
 import { ReactNode, useMemo } from "react";
+import { appOrigin } from "utils/contextPath";
 
 interface TaskSummaryProps {
   taskResult: ExecutionTask;
@@ -149,7 +150,7 @@ export default function TaskSummary({ taskResult }: TaskSummaryProps) {
         label: "Subworkflow id",
         value: (
           <Link
-            href={`${window.location.origin}/execution/${taskResult.outputData?.subWorkflowId}`}
+            href={`${appOrigin()}/execution/${taskResult.outputData?.subWorkflowId}`}
             target="_blank"
             rel="noreferrer"
           >
@@ -168,11 +169,11 @@ export default function TaskSummary({ taskResult }: TaskSummaryProps) {
       label: "Start workflow",
       value: (
         <Link
-          href={`${window.location.origin}/execution/${taskResult.outputData?.workflowId}`}
+          href={`${appOrigin()}/execution/${taskResult.outputData?.workflowId}`}
           target="_blank"
           rel="noreferrer"
         >
-          {`${window.location.origin}/execution/${taskResult.outputData?.workflowId}`}
+          {`${appOrigin()}/execution/${taskResult.outputData?.workflowId}`}
         </Link>
       ),
     });
@@ -199,7 +200,7 @@ export default function TaskSummary({ taskResult }: TaskSummaryProps) {
         label: "Subworkflow id",
         value: (
           <Link
-            href={`${window.location.origin}/execution/${subWorkflowId}`}
+            href={`${appOrigin()}/execution/${subWorkflowId}`}
             target="_blank"
             rel="noreferrer"
           >

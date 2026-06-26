@@ -1,3 +1,5 @@
+import { apiBaseUrl } from "utils/contextPath";
+
 const formatInputParams = (inputParamKeys: string[]): string => {
   if (!inputParamKeys?.length) return "";
   return inputParamKeys
@@ -70,9 +72,7 @@ public class Main {
     public static void main(String[] args)
     {
         System.out.println("Hello world!");
-        ApiClient apiClient = new ApiClient("${
-          window.location.origin
-        }/api","some-key","some-secret");
+        ApiClient apiClient = new ApiClient("${apiBaseUrl()}","some-key","some-secret");
         OrkesClients oc = new OrkesClients(apiClient);
 
         WorkflowExecutor executor = new WorkflowExecutor(
@@ -124,7 +124,7 @@ from conductor.client.configuration.configuration import Configuration
 from conductor.client.worker.worker_task import worker_task
 import os
 
-os.environ['CONDUCTOR_SERVER_URL'] = '${window.location.origin}/api'
+os.environ['CONDUCTOR_SERVER_URL'] = '${apiBaseUrl()}'
 os.environ['CONDUCTOR_AUTH_KEY'] = 'SomeKey'
 os.environ['CONDUCTOR_AUTH_SECRET'] = 'SomeValue'
 
@@ -209,7 +209,7 @@ func authSettings() *settings.AuthenticationSettings {
 }
 
 func httpSettings() *settings.HttpSettings {
-	url := "${window.location.origin}/api" 
+	url := "${apiBaseUrl()}"
 	if url == "" {
 		log.Error("Error: CONDUCTOR_SERVER_URL env variable is not set")
 		os.Exit(1)
@@ -302,7 +302,7 @@ using System.Threading;
 using System.Threading.Tasks;
 var configuration = new Configuration()
 {
-    BasePath = "${window.location.origin}/api",
+    BasePath = "${apiBaseUrl()}",
         AuthenticationSettings = new OrkesAuthenticationSettings("XXX", "XXXX")
 };
 var host = WorkflowTaskHost.CreateWorkerHost(configuration, Microsoft.Extensions.Logging.LogLevel.Information, new SimpleWorker());
@@ -382,7 +382,7 @@ async function test() {
     // keyId: "XXX", // optional
     // keySecret: "XXXX", // optional
      TOKEN: "${accessToken}",
-     serverUrl: "${window.location.origin}/api"
+     serverUrl: "${apiBaseUrl()}"
   });
 
   const client = await clientPromise;
@@ -449,7 +449,7 @@ async function test() {
     // keyId: "XXX", // optional
     // keySecret: "XXXX", // optional
     TOKEN: "${accessToken}",
-    serverUrl: "${window.location.origin}/api"
+    serverUrl: "${apiBaseUrl()}"
   });
 
   const client = await clientPromise;

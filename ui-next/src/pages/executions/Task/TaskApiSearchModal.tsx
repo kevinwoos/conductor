@@ -2,6 +2,7 @@ import { ApiSearchModal } from "components/ApiSearchModal";
 import { curlHeaders } from "shared/CodeModal/curlHeader";
 import { toCodeT, useParamsToSdk } from "shared/CodeModal/hook";
 import { SupportedDisplayTypes } from "shared/CodeModal/types";
+import { apiBaseUrl } from "utils/contextPath";
 import { BuildQueryOutput } from "../ApiSearchModalIntegration";
 
 interface TaskApiSearchModalProps {
@@ -16,7 +17,7 @@ const buildEndpoint = ({
   freeText,
   query,
 }: BuildQueryOutput) =>
-  `${window.location.origin}/api/tasks/search?${new URLSearchParams({
+  `${apiBaseUrl()}/tasks/search?${new URLSearchParams({
     start: String(start),
     size: String(size),
     sort,
